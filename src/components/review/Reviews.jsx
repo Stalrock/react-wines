@@ -8,6 +8,7 @@ import Pagination from "./Pagination";
 
 function Reviews(props) {
   const categorySelected = props.history.location.state?.categorySelected;
+  document.title = `Reviews ${categorySelected || ""}`;
   const reviewsPerPage = 10;
 
   let parser = (url) =>
@@ -16,23 +17,23 @@ function Reviews(props) {
       .split("&")
       .reduce((a, c) => {
         let [key, value] = c.split("=");
-        if (key) a[key] = value;
+        if (key) a[key] = decodeURIComponent(value.replace(/\+/g, " "));
         return a;
       }, {});
   const paramsUrl = parser(props.history.location.search);
 
   const search = paramsUrl["search"] || "";
-  const orderByTitle = paramsUrl["order-by-title"];
-  const orderByPrice = paramsUrl["order-by-price"];
+  const orderByTitle = paramsUrl["order-by-title"] || "-1";
+  const orderByPrice = paramsUrl["order-by-price"] || "-1";
   const page = parseInt(paramsUrl["page"]) || 1;
 
   // Filter by category & search
   const reviewsFiltered = db.reviews.filter((review) => {
     return (categorySelected === "" || !categorySelected) &&
-      review.title.toLowerCase().trim().includes(search)
+      review.title.toLowerCase().trim().includes(search.toLowerCase())
       ? true
       : categorySelected === review.category &&
-          review.title.toLowerCase().trim().includes(search);
+          review.title.toLowerCase().trim().includes(search.toLowerCase());
   });
 
   // Sort by title asc & desc
@@ -75,7 +76,7 @@ function Reviews(props) {
     const { name, value } = e.target;
     if (name.startsWith("order-by")) {
       Object.keys(paramsUrl).forEach((key) => {
-        if (key.startsWith("order-by") && key !== name) paramsUrl[key] = "-1";
+        if (key.startsWith("order-by") && key !== name) delete paramsUrl[key];
       });
     }
     props.history.push({
@@ -89,7 +90,6 @@ function Reviews(props) {
   };
 
   const handleClickPagination = (page) => {
-    console.log(page);
     if (page > 0 && page <= nbrPage) {
       props.history.push({
         ...props.location,

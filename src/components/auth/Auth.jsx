@@ -13,6 +13,10 @@ class Auth extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount(){
+    document.title = this.props.title;
+  }
+
   handleSubmit(data) {
     this.setState({ ...data });
     this.props.onLogin();

@@ -19,6 +19,10 @@ class AddReview extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidMount(){
+    document.title = this.props.title;
+  }
+
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({

@@ -7,6 +7,7 @@ class Logout extends Component {
   }
 
   componentDidMount() {
+    document.title = this.props.title;
     if (this.props.isLogin) {
       this.props.onLogout();
     }

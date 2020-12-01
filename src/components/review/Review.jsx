@@ -5,6 +5,7 @@ import { useParams } from "react-router";
 function Review(props) {
   const { slug } = useParams();
   const review = db.reviews.find((review) => review.slug === slug);
+  document.title = review.title;
   let reviewShow;
   if (review) {
     reviewShow = (

@@ -69,12 +69,13 @@ class App extends Component {
           <section>
             <Switch>
               <Route name="login" path="/login">
-                <Auth onLogin={this.handleLogin} isLogin={this.state.isLogin} />
+                <Auth onLogin={this.handleLogin} isLogin={this.state.isLogin} title="Login" />
               </Route>
               <Route name="logout" path="/logout">
                 <Logout
                   onLogout={this.handleLogout}
                   isLogin={this.state.isLogin}
+                  title="Logout"
                 />
               </Route>
               <Route name="reviews" path="/reviews">
@@ -84,10 +85,10 @@ class App extends Component {
                 <Review />
               </Route>
               <Route name="add-review" path="/add-review">
-                <AddReview isLogin={this.state.isLogin} />
+                <AddReview isLogin={this.state.isLogin} title="Add review" />
               </Route>
               <Route name="home" path="/">
-                <Home />
+                <Home title="Home" />
               </Route>
             </Switch>
           </section>
